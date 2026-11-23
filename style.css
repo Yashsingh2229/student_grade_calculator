@@ -1,0 +1,755 @@
+/* ==========================================================================
+   STUDENT MARKS & GRADE CALCULATOR - STYLESHEET
+   Supports Light Mode and Dark Mode via CSS Variables and Body Class
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS VARIABLES (THEME DEFINITIONS)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Light Theme (Default) */
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-topbar: #ffffff;
+  --text-main: #0f172a;        /* Dark navy text */
+  --text-muted: #334155;       /* Medium navy text */
+  --text-light: #64748b;       /* Muted helper text */
+
+  /* Input fields */
+  --input-bg: #f1f5f9;         /* Light grey input background */
+  --input-border: #cbd5e1;     /* Input border */
+  --input-focus-border: #10b981;
+  --input-placeholder: #94a3b8;
+
+  /* Accent colour (Green) */
+  --accent-green: #10b981;
+  --accent-green-hover: #059669;
+  --accent-green-light: #ecfdf5;
+
+  /* Buttons */
+  --btn-secondary-bg: #e2e8f0;
+  --btn-secondary-text: #0f172a;
+  --btn-secondary-hover: #cbd5e1;
+
+  /* Theme Toggle Button */
+  --toggle-btn-bg: #f1f5f9;
+  --toggle-btn-text: #0f172a;
+  --toggle-btn-border: #cbd5e1;
+  --toggle-btn-hover: #e2e8f0;
+
+  /* Borders & Shadows */
+  --border-color: #e2e8f0;     /* Subtle light border */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+
+  /* Tables */
+  --table-header-bg: #f1f5f9;
+  --table-row-even: #f8fafc;
+  --table-row-hover: #f1f5f9;
+
+  /* Progress Bar */
+  --progress-bg: #e2e8f0;
+  --progress-fill: #10b981;
+
+  /* Error and Success Notification Messages */
+  --msg-error-bg: #fef2f2;
+  --msg-error-text: #991b1b;
+  --msg-error-border: #f87171;
+
+  --msg-success-bg: #f0fdf4;
+  --msg-success-text: #166534;
+  --msg-success-border: #86efac;
+
+  /* Metric cards */
+  --metric-bg: #f8fafc;
+  --metric-border: #e2e8f0;
+  --remarks-bg: #f8fafc;
+  --remarks-border: #cbd5e1;
+}
+
+/* Dark Theme (Activated when body has class "dark-mode") */
+body.dark-mode {
+  /* Dark Theme */
+  --bg-page: #0b1120;          /* Dark navy / charcoal background */
+  --bg-card: #1e293b;          /* Slightly lighter card background */
+  --bg-topbar: #1e293b;
+  --text-main: #f8fafc;        /* Light text */
+  --text-muted: #cbd5e1;       /* Light muted text */
+  --text-light: #94a3b8;       /* Subtle text */
+
+  /* Input fields */
+  --input-bg: #334155;         /* Slightly lighter input background */
+  --input-border: #475569;     /* Subtle input border */
+  --input-focus-border: #34d399;
+  --input-placeholder: #94a3b8;
+
+  /* Accent colour (Green) */
+  --accent-green: #10b981;
+  --accent-green-hover: #34d399;
+  --accent-green-light: #064e3b;
+
+  /* Buttons */
+  --btn-secondary-bg: #334155;
+  --btn-secondary-text: #f8fafc;
+  --btn-secondary-hover: #475569;
+
+  /* Theme Toggle Button */
+  --toggle-btn-bg: #334155;
+  --toggle-btn-text: #f8fafc;
+  --toggle-btn-border: #475569;
+  --toggle-btn-hover: #475569;
+
+  /* Borders & Shadows */
+  --border-color: #334155;     /* Subtle border for visual separation */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
+
+  /* Tables */
+  --table-header-bg: #334155;
+  --table-row-even: #172033;
+  --table-row-hover: #293548;
+
+  /* Progress Bar */
+  --progress-bg: #334155;
+  --progress-fill: #10b981;
+
+  /* Error and Success Notification Messages */
+  --msg-error-bg: #450a0a;
+  --msg-error-text: #fca5a5;
+  --msg-error-border: #991b1b;
+
+  --msg-success-bg: #052e16;
+  --msg-success-text: #86efac;
+  --msg-success-border: #166534;
+
+  /* Metric cards */
+  --metric-bg: #0f172a;
+  --metric-border: #334155;
+  --remarks-bg: #0f172a;
+  --remarks-border: #334155;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. RESET & GLOBAL BASE STYLES
+   -------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  /* Smooth subtle transition between light and dark themes */
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Smooth theme transitions for interactive and colored elements */
+.top-bar,
+.card,
+.theme-toggle-btn,
+.btn,
+input,
+table,
+th,
+td,
+.progress-bar-container,
+.progress-bar-fill,
+.message-box,
+.metric-box,
+.remarks-box,
+.status-badge,
+.badge {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. TOP BAR & THEME TOGGLE (TOP-RIGHT CORNER)
+   -------------------------------------------------------------------------- */
+.top-bar {
+  background-color: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-color);
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.top-bar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+/* Toggle button in the top-right corner */
+.theme-toggle-btn {
+  background-color: var(--toggle-btn-bg);
+  color: var(--toggle-btn-text);
+  border: 1px solid var(--toggle-btn-border);
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--toggle-btn-hover);
+  border-color: var(--accent-green);
+}
+
+.theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT & CONTAINER
+   -------------------------------------------------------------------------- */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px 60px 20px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.main-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.sub-heading {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   5. CARDS & GENERAL CONTAINERS
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 26px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 24px;
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 20px 0 12px 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. NOTIFICATION MESSAGE BOX (ERROR & SUCCESS)
+   -------------------------------------------------------------------------- */
+.message-box {
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.message-box.error {
+  background-color: var(--msg-error-bg);
+  color: var(--msg-error-text);
+  border: 1px solid var(--msg-error-border);
+}
+
+.message-box.success {
+  background-color: var(--msg-success-bg);
+  color: var(--msg-success-text);
+  border: 1px solid var(--msg-success-border);
+}
+
+
+/* --------------------------------------------------------------------------
+   7. FORM INPUTS & LABELS
+   -------------------------------------------------------------------------- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .subjects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+/* Input styling */
+input[type="text"],
+input[type="number"] {
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border: 1px solid var(--input-border);
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  outline: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: var(--input-placeholder);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+
+/* --------------------------------------------------------------------------
+   8. BUTTONS
+   -------------------------------------------------------------------------- */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+  .button-group {
+    flex-direction: column;
+  }
+}
+
+.btn {
+  padding: 12px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  flex: 1;
+}
+
+/* Green Primary Button */
+.btn-primary {
+  background-color: var(--accent-green);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-green-hover);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--btn-secondary-hover);
+}
+
+
+/* --------------------------------------------------------------------------
+   9. RESULT CARD & METRICS
+   -------------------------------------------------------------------------- */
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.result-header .card-title {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Status Badge */
+.status-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  background-color: var(--input-bg);
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
+}
+
+.status-passed {
+  background-color: var(--accent-green-light);
+  color: #10b981;
+  border: 1px solid #10b981;
+}
+
+.status-failed {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+/* Empty Placeholder */
+.result-placeholder {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-light);
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+/* Student Summary Details */
+.student-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background-color: var(--metric-bg);
+  border: 1px solid var(--metric-border);
+  border-radius: 8px;
+}
+
+@media (max-width: 480px) {
+  .student-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+
+.summary-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Metrics Grid (Total, Percentage, Grade) */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 550px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metric-box {
+  background-color: var(--metric-bg);
+  border: 1px solid var(--metric-border);
+  padding: 16px 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.metric-value {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.metric-value small {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.grade-display {
+  color: var(--accent-green);
+}
+
+.grade-display.grade-fail {
+  color: #ef4444;
+}
+
+
+/* --------------------------------------------------------------------------
+   10. PROGRESS BAR
+   -------------------------------------------------------------------------- */
+.progress-section {
+  margin-bottom: 22px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.progress-bar-container {
+  height: 14px;
+  background-color: var(--progress-bg);
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--progress-fill);
+  border-radius: 7px;
+  width: 0%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
+}
+
+.progress-bar-fill.bar-fail {
+  background-color: #ef4444;
+}
+
+
+/* --------------------------------------------------------------------------
+   11. REMARKS BOX
+   -------------------------------------------------------------------------- */
+.remarks-box {
+  background-color: var(--remarks-bg);
+  border: 1px solid var(--remarks-border);
+  border-left: 4px solid var(--accent-green);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.remarks-box.remarks-fail {
+  border-left-color: #ef4444;
+}
+
+.remarks-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.remarks-text {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-main);
+}
+
+
+/* --------------------------------------------------------------------------
+   12. SUBJECT-WISE RESULT TABLE & GRADING RULES TABLE
+   -------------------------------------------------------------------------- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.result-table,
+.rules-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.result-table th,
+.result-table td,
+.rules-table th,
+.rules-table td {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+}
+
+.result-table th,
+.rules-table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.result-table tr:nth-child(even) td,
+.rules-table tr:nth-child(even) td {
+  background-color: var(--table-row-even);
+}
+
+.result-table tr:hover td,
+.rules-table tr:hover td {
+  background-color: var(--table-row-hover);
+}
+
+.result-table td,
+.rules-table td {
+  color: var(--text-main);
+}
+
+/* Grade badges */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-a-plus { background-color: #065f46; color: #a7f3d0; }
+.badge-a      { background-color: #047857; color: #d1fae5; }
+.badge-b      { background-color: #1e40af; color: #dbeafe; }
+.badge-c      { background-color: #854d0e; color: #fef9c3; }
+.badge-d      { background-color: #9a3412; color: #ffedd5; }
+.badge-f      { background-color: #991b1b; color: #fee2e2; }
+
+.pass-tag {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.fail-tag {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+
+/* --------------------------------------------------------------------------
+   13. GRADING RULES CARD SPECIFIC
+   -------------------------------------------------------------------------- */
+.rules-desc {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-bottom: 14px;
+}
+
+.rules-note {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 12px;
+  font-style: italic;
+}

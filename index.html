@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Marks & Grade Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top-Right Theme Toggle Button -->
+  <header class="top-bar">
+    <div class="top-bar-container">
+      <div class="brand-title">🎓 Student Portal</div>
+      <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle theme">
+        ☀️ Light
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="main-container">
+
+    <!-- Header Section -->
+    <header class="header-section">
+      <h1 class="main-heading">Student Marks &amp; Grade Calculator</h1>
+      <p class="sub-heading">
+        Enter student information and subject marks to generate a comprehensive result card, percentage, and subject-wise breakdown.
+      </p>
+    </header>
+
+    <!-- Notification Message Area (Success & Error Messages) -->
+    <div id="messageBox" class="message-box" style="display: none;"></div>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+
+      <!-- Left Column: Form Inputs & Grading Rules -->
+      <section class="left-column">
+        
+        <!-- Student Details & Marks Input Card -->
+        <div class="card form-card">
+          <h2 class="card-title">Enter Student Details &amp; Marks</h2>
+          
+          <form id="calculatorForm">
+            <!-- Student Information -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="studentName">Student Name <span class="required">*</span></label>
+                <input 
+                  type="text" 
+                  id="studentName" 
+                  name="studentName" 
+                  placeholder="e.g. Alex Johnson" 
+                  autocomplete="off"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="rollNumber">Roll / ID Number <span class="required">*</span></label>
+                <input 
+                  type="text" 
+                  id="rollNumber" 
+                  name="rollNumber" 
+                  placeholder="e.g. 2026-CS-042" 
+                  autocomplete="off"
+                >
+              </div>
+            </div>
+
+            <!-- Subject Marks Heading -->
+            <h3 class="section-subtitle">Subject Marks (Out of 100)</h3>
+
+            <!-- 5 Subjects Input Fields -->
+            <div class="subjects-grid">
+              <div class="form-group">
+                <label for="marksMath">Mathematics <span class="required">*</span></label>
+                <input 
+                  type="number" 
+                  id="marksMath" 
+                  min="0" 
+                  max="100" 
+                  placeholder="0 - 100" 
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="marksScience">Science <span class="required">*</span></label>
+                <input 
+                  type="number" 
+                  id="marksScience" 
+                  min="0" 
+                  max="100" 
+                  placeholder="0 - 100" 
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="marksEnglish">English <span class="required">*</span></label>
+                <input 
+                  type="number" 
+                  id="marksEnglish" 
+                  min="0" 
+                  max="100" 
+                  placeholder="0 - 100" 
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="marksSocial">Social Studies <span class="required">*</span></label>
+                <input 
+                  type="number" 
+                  id="marksSocial" 
+                  min="0" 
+                  max="100" 
+                  placeholder="0 - 100" 
+                >
+              </div>
+
+              <div class="form-group full-width">
+                <label for="marksComputer">Computer Science <span class="required">*</span></label>
+                <input 
+                  type="number" 
+                  id="marksComputer" 
+                  min="0" 
+                  max="100" 
+                  placeholder="0 - 100" 
+                >
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+              <button type="submit" id="calculateBtn" class="btn btn-primary">
+                📊 Calculate Result
+              </button>
+              <button type="button" id="resetBtn" class="btn btn-secondary">
+                🔄 Reset Form
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Grading Rules Section -->
+        <div class="card rules-card">
+          <h2 class="card-title">📋 Grading Rules &amp; Standards</h2>
+          <p class="rules-desc">Academic evaluation standards used for determining overall grade and passing eligibility:</p>
+          
+          <div class="rules-table-wrapper">
+            <table class="rules-table">
+              <thead>
+                <tr>
+                  <th>Score Range</th>
+                  <th>Grade</th>
+                  <th>Performance Remark</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>90% – 100%</td>
+                  <td><span class="badge badge-a-plus">A+</span></td>
+                  <td>Outstanding</td>
+                  <td>Passed</td>
+                </tr>
+                <tr>
+                  <td>80% – 89%</td>
+                  <td><span class="badge badge-a">A</span></td>
+                  <td>Excellent</td>
+                  <td>Passed</td>
+                </tr>
+                <tr>
+                  <td>70% – 79%</td>
+                  <td><span class="badge badge-b">B</span></td>
+                  <td>Very Good</td>
+                  <td>Passed</td>
+                </tr>
+                <tr>
+                  <td>60% – 69%</td>
+                  <td><span class="badge badge-c">C</span></td>
+                  <td>Good</td>
+                  <td>Passed</td>
+                </tr>
+                <tr>
+                  <td>50% – 59%</td>
+                  <td><span class="badge badge-d">D</span></td>
+                  <td>Satisfactory / Pass</td>
+                  <td>Passed</td>
+                </tr>
+                <tr>
+                  <td>Below 50%</td>
+                  <td><span class="badge badge-f">F</span></td>
+                  <td>Needs Improvement / Fail</td>
+                  <td>Failed</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="rules-note">
+            * Note: A minimum score of <strong>35 marks</strong> is required in each subject to qualify for passing.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Result Card, Progress Bar & Subject Breakdown -->
+      <section class="right-column">
+
+        <!-- Result Card -->
+        <div id="resultCard" class="card result-card">
+          <div class="result-header">
+            <h2 class="card-title">Student Performance Result</h2>
+            <span id="statusBadge" class="status-badge status-pending">Awaiting Input</span>
+          </div>
+
+          <!-- Empty State (Shown before calculation) -->
+          <div id="resultPlaceholder" class="result-placeholder">
+            <div class="placeholder-icon">📝</div>
+            <p>Please enter the student's name, roll number, and marks in the form, then click <strong>Calculate Result</strong> to view the detailed report.</p>
+          </div>
+
+          <!-- Calculated Results Container (Hidden until calculated) -->
+          <div id="resultDetails" class="result-details" style="display: none;">
+            
+            <!-- Student Summary Info -->
+            <div class="student-summary">
+              <div class="summary-item">
+                <span class="summary-label">Student Name:</span>
+                <span id="resStudentName" class="summary-value">-</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Roll / ID Number:</span>
+                <span id="resRollNumber" class="summary-value">-</span>
+              </div>
+            </div>
+
+            <!-- Key Metric Cards -->
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <span class="metric-label">Total Marks</span>
+                <div class="metric-value"><span id="resTotalMarks">0</span> <small>/ 500</small></div>
+              </div>
+              
+              <div class="metric-box">
+                <span class="metric-label">Percentage</span>
+                <div class="metric-value"><span id="resPercentage">0.00</span>%</div>
+              </div>
+              
+              <div class="metric-box">
+                <span class="metric-label">Final Grade</span>
+                <div class="metric-value grade-display" id="resGrade">-</div>
+              </div>
+            </div>
+
+            <!-- Progress Bar Section -->
+            <div class="progress-section">
+              <div class="progress-header">
+                <span class="progress-label">Overall Percentage Score</span>
+                <span id="progressText" class="progress-text">0%</span>
+              </div>
+              <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- Performance Remarks -->
+            <div class="remarks-box">
+              <span class="remarks-title">Academic Remarks:</span>
+              <p id="resRemarks" class="remarks-text">Keep up the good work!</p>
+            </div>
+
+            <!-- Subject-wise Result Table -->
+            <div class="table-section">
+              <h3 class="section-subtitle">Subject-Wise Breakdown</h3>
+              <div class="table-responsive">
+                <table class="result-table">
+                  <thead>
+                    <tr>
+                      <th>Subject</th>
+                      <th>Max Marks</th>
+                      <th>Obtained</th>
+                      <th>Percentage</th>
+                      <th>Grade</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="subjectTableBody">
+                    <!-- Populated dynamically via JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- External JavaScript file -->
+  <script src="script.js"></script>
+</body>
+</html>
