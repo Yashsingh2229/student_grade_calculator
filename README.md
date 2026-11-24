@@ -30,14 +30,3 @@ A clean, responsive web app to calculate and display student academic performanc
 <img width="565" height="553" alt="image" src="https://github.com/user-attachments/assets/c1c8a747-6a03-423d-866d-23f446c4fb96" />
 
 ---
-## 🎓 Grading Scale
-| Score Range | Grade | Remark                  | Status |
-|-------------|-------|-------------------------|--------|
-| 90% – 100%  | A+    | Outstanding             | Passed |
-| 80% – 89%   | A     | Excellent               | Passed |
-| 70% – 79%   | B     | Very Good               | Passed |
-| 60% – 69%   | C     | Good                    | Passed |
-| 50% – 59%   | D     | Satisfactory / Pass     | Passed |
-| Below 50%   | F     | Needs Improvement / Fail| Failed |
-> ⚠️ A minimum of **35 marks** is required in each subject to qualify for passing.
----
